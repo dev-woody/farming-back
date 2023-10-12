@@ -18,12 +18,12 @@ export class AuthController {
 
     const user = await this.usersService.findByUserId(user_id);
     if (!user) {
-      throw new UnauthorizedException("이메일 또는 비밀번호를 확인해 주세요.");
+      throw new UnauthorizedException("아이디를 확인해 주세요.");
     }
 
     const isSamePassword = bcrypt.compareSync(password, user.password);
     if (!isSamePassword) {
-      throw new UnauthorizedException("이메일 또는 비밀번호를 확인해 주세요.");
+      throw new UnauthorizedException("비밀번호를 확인해 주세요.");
     }
 
     const payload = {
@@ -31,7 +31,10 @@ export class AuthController {
     };
 
     const accessToken = this.jwtService.sign(payload);
-
-    return accessToken;
+    delete user.password;
+    return {
+      ...user,
+      accessToken: accessToken,
+    };
   }
 }

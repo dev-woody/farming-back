@@ -32,11 +32,6 @@ export class UsersController {
   @Get()
   async getProfile(@Req() req: any) {
     const user = req.user;
-    return user;
-  }
-
-  @Get("/findAll")
-  findAll() {
-    return this.usersService.findAll();
+    return delete user.password && user;
   }
 }

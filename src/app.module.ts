@@ -6,11 +6,19 @@ import { ConfigModule } from "@nestjs/config";
 import { ProductsModule } from "./products/products.module";
 import { UsersModule } from "./users/users.module";
 import { AuthModule } from "./auth/auth.module";
-import { CartModule } from './cart/cart.module';
-import { OrdersModule } from './orders/orders.module';
+import { CartModule } from "./cart/cart.module";
+import { OrdersModule } from "./orders/orders.module";
+import { UploadModule } from "./upload/upload.module";
+import { ServeStaticModule } from "@nestjs/serve-static";
+import { join } from "path";
+import { ReviewsModule } from './reviews/reviews.module';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, "../static"),
+      exclude: ["/api/(.*)"],
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ".env",
@@ -30,6 +38,8 @@ import { OrdersModule } from './orders/orders.module';
     AuthModule,
     CartModule,
     OrdersModule,
+    UploadModule,
+    ReviewsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

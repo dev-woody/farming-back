@@ -4,15 +4,17 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 
 import * as bcrypt from "bcrypt";
+import { Review } from "src/reviews/entities/review.entity";
 
 @Entity({ name: "users" })
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   uuid: number;
 
   @Column()
@@ -34,7 +36,10 @@ export class User {
   email: string;
 
   @Column()
-  phone: number;
+  phone: string;
+
+  @OneToMany(() => Review, (review) => review.user)
+  reviews: Review[];
 
   @CreateDateColumn()
   createdAt: Date;
