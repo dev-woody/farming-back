@@ -3,20 +3,25 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 
 @Entity({ name: "cart" })
 export class Cart {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   uuid: number;
 
   @Column()
-  user_id: number;
+  user_id: string;
 
   @Column()
-  prod_num: number;
+  prod_id: string;
+
+  @Column()
+  option_id: string;
 
   @Column()
   quantity: number;
@@ -32,4 +37,8 @@ export class Cart {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @JoinColumn({ name: "user_id" })
+  @ManyToOne(() => Cart, (cart) => cart.user_id)
+  user: string;
 }

@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -42,6 +42,11 @@ export class ProductsService {
       },
       relations: ["options", "reviews"],
     });
+    if (!product)
+      throw new HttpException(
+        "상품이 존재하지 않습니다.",
+        HttpStatus.BAD_REQUEST,
+      );
     return product;
   }
 

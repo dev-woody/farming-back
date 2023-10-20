@@ -16,7 +16,7 @@ export class UsersService {
     return await this.userRepository.save(userEntity);
   }
 
-  async findById(uuid: number) {
+  async findById(uuid: string) {
     return await this.userRepository.findOne({
       where: {
         uuid,

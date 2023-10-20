@@ -9,7 +9,7 @@ import {
 
 @Entity({ name: "orders" })
 export class Order {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   uuid: number;
 
   @Column()
@@ -23,6 +23,21 @@ export class Order {
 
   @Column()
   status: number;
+
+  @Column()
+  zip_code: number;
+
+  @Column()
+  address: string;
+
+  @Column()
+  address_detail: string;
+
+  @Column()
+  phone: string;
+
+  @Column()
+  delevery_memo: string;
 
   @CreateDateColumn()
   createdAt: Date;

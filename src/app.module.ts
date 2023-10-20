@@ -11,7 +11,8 @@ import { OrdersModule } from "./orders/orders.module";
 import { UploadModule } from "./upload/upload.module";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { join } from "path";
-import { ReviewsModule } from './reviews/reviews.module';
+import { ReviewsModule } from "./reviews/reviews.module";
+import { PaymentsModule } from './payments/payments.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { ReviewsModule } from './reviews/reviews.module';
     OrdersModule,
     UploadModule,
     ReviewsModule,
+    PaymentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
