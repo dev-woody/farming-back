@@ -12,7 +12,7 @@ import { UploadModule } from "./upload/upload.module";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { join } from "path";
 import { ReviewsModule } from "./reviews/reviews.module";
-import { PaymentsModule } from './payments/payments.module';
+import { PaymentsModule } from "./payments/payments.module";
 
 @Module({
   imports: [

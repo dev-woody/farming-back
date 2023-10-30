@@ -16,7 +16,7 @@ export class UploadService {
       path: file.path,
     });
     const saveImage = await this.uploadRepository.save(uploadEntity);
-    return { path: file.path, iamge_id: saveImage.id };
+    return { path: file.path, iamge_id: saveImage.uuid };
   }
 
   async findAll() {

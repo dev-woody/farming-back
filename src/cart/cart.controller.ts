@@ -12,38 +12,47 @@ import { CartService } from "./cart.service";
 import { CreateCartDto } from "./dto/create-cart.dto";
 import { UpdateCartDto } from "./dto/update-cart.dto";
 import { AuthGuard } from "src/auth/guard/auth.guard";
-import { CreateCartListDto } from "./dto/create-cartList.dto";
+import { UsersService } from "src/users/users.service";
+import { ProductsService } from "src/products/products.service";
 
 @Controller("cart")
 export class CartController {
-  constructor(private readonly cartService: CartService) {}
+  constructor(
+    private readonly cartService: CartService,
+    private readonly userService: UsersService,
+    private readonly productServie: ProductsService,
+  ) {}
 
   @UseGuards(AuthGuard)
   @Post("/create")
-  create(@Body() createCartListDto: CreateCartListDto) {
-    return this.cartService.create(createCartListDto);
+  async create(@Body() createCartDto: CreateCartDto) {
+    await this.userService.findById(createCartDto.user_id);
+    await this.productServie.findById(createCartDto.prod_id);
+    const isUnEmpty = await this.cartService.findProductId(
+      createCartDto.prod_id,
+    );
+    if (isUnEmpty)
+      return this.cartService.update(isUnEmpty.uuid, createCartDto);
+    return this.cartService.create(createCartDto);
   }
 
-  @Get()
+  @Get("/all")
   findAll(@Body() user_id: string) {
     return this.cartService.findAll(user_id);
   }
 
-  @Get(":id")
+  @Get("/user:id")
   findOne(@Param("id") id: string) {
     return this.cartService.findOne(id);
   }
 
   @Patch(":id")
-  update(
-    @Param("id") id: string,
-    @Body() createCartListDto: CreateCartListDto,
-  ) {
-    return this.cartService.update(id, createCartListDto);
+  update(@Param("id") id: string, @Body() updateCartDto: UpdateCartDto) {
+    return this.cartService.update(id, updateCartDto);
   }
 
   @Delete(":id")
   remove(@Param("id") id: string) {
-    return this.cartService.remove(+id);
+    return this.cartService.remove(id);
   }
 }

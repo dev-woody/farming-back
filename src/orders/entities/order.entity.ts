@@ -1,8 +1,11 @@
+import { User } from "src/users/entities/user.entity";
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -12,8 +15,8 @@ export class Order {
   @PrimaryGeneratedColumn("uuid")
   uuid: number;
 
-  @Column()
-  user_id: number;
+  @Column({ nullable: true })
+  user_id: string;
 
   @Column()
   price: number;
@@ -47,4 +50,8 @@ export class Order {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @JoinColumn({ name: "user_id" })
+  @ManyToOne(() => User, (user) => user.orders)
+  user: string;
 }

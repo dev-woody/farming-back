@@ -1,4 +1,21 @@
-import { IsInt, IsString } from "class-validator";
+import { IsArray, IsInt, IsString } from "class-validator";
+
+export class Option {
+  @IsString()
+  readonly id: string;
+
+  @IsString()
+  readonly name: string;
+
+  @IsInt()
+  readonly price: number;
+
+  @IsInt()
+  readonly sale_price: number;
+
+  @IsInt()
+  readonly quantity: number;
+}
 
 export class CreateCartDto {
   @IsString()
@@ -7,11 +24,8 @@ export class CreateCartDto {
   @IsString()
   readonly prod_id: string;
 
-  @IsString()
-  readonly option_id: string;
-
-  @IsInt()
-  readonly quantity: number;
+  @IsArray()
+  readonly options: Option[];
 
   @IsString()
   readonly status: string;

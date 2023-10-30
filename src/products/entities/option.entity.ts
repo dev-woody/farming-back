@@ -3,31 +3,30 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Product } from "./product.entity";
+import { Item_Option } from "./item_option.entity";
 
-@Entity({ name: "options" })
+@Entity({ name: "prod_options" })
 export class Option {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  uuid: string;
 
   @Column()
-  name: string;
+  opt_name: string;
 
   @Column()
-  price: number;
-
-  @Column({ nullable: true })
-  sale_price: number;
+  prod_id: string;
 
   @Column()
   unavailable: boolean;
 
-  @Column({ nullable: true })
-  product_id: string;
+  @OneToMany(() => Item_Option, (option_item) => option_item.option_id)
+  option_item: Item_Option[];
 
-  @JoinColumn({ name: "product_id" })
+  @JoinColumn({ name: "prod_id" })
   @ManyToOne(() => Product, (product) => product.options)
   product: string;
 }

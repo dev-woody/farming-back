@@ -6,7 +6,6 @@ import {
   ConflictException,
   UseGuards,
   Req,
-  Query,
 } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { AuthDTO } from "src/auth/dto/auth.dto";
@@ -30,14 +29,17 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard)
+  @Get("/test")
+  async findByUuId(@Req() req: any) {
+    const user = req.user;
+    console.log(user.uuid);
+    return await this.usersService.findById(user.uuid);
+  }
+
+  @UseGuards(AuthGuard)
   @Get()
   async getProfile(@Req() req: any) {
     const user = req.user;
     return delete user.password && user;
-  }
-
-  @Get("/test")
-  async findById(@Query("uuid") uuid: string) {
-    return await this.usersService.findById(uuid);
   }
 }

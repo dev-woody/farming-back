@@ -6,26 +6,19 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { Cart_Item } from "./cart_Item.entity";
 
 @Entity({ name: "cart" })
 export class Cart {
   @PrimaryGeneratedColumn("uuid")
   uuid: string;
 
-  @Column()
+  @Column({ nullable: true })
   user_id: string;
-
-  @Column()
-  prod_id: string;
-
-  @Column()
-  option_id: string;
-
-  @Column()
-  quantity: number;
 
   @Column()
   status: string;
@@ -38,6 +31,9 @@ export class Cart {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @OneToMany(() => Cart_Item, (cart_items) => cart_items.cart)
+  cart_items: Cart_Item[];
 
   @JoinColumn({ name: "user_id" })
   @ManyToOne(() => User, (user) => user.carts)

@@ -12,6 +12,7 @@ import {
 import * as bcrypt from "bcrypt";
 import { Review } from "src/reviews/entities/review.entity";
 import { Cart } from "src/cart/entities/cart.entity";
+import { Order } from "src/orders/entities/order.entity";
 
 @Entity({ name: "users" })
 export class User {
@@ -45,8 +46,11 @@ export class User {
   @OneToMany(() => Review, (review) => review.user)
   reviews: Review[];
 
-  @OneToMany(() => Cart, (cart) => cart.user_id)
+  @OneToMany(() => Cart, (cart) => cart.user)
   carts: Cart[];
+
+  @OneToMany(() => Order, (order) => order.user)
+  orders: Cart[];
 
   @CreateDateColumn()
   createdAt: Date;

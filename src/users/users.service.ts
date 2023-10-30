@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "./entities/user.entity";
 import { Repository } from "typeorm";
@@ -17,11 +17,18 @@ export class UsersService {
   }
 
   async findById(uuid: string) {
-    return await this.userRepository.findOne({
+    const user = await this.userRepository.findOne({
       where: {
         uuid,
       },
+      relations: ["carts", "reviews"],
     });
+    if (!user)
+      throw new HttpException(
+        "존재하지 않는 유저입니다.",
+        HttpStatus.BAD_REQUEST,
+      );
+    return user;
   }
 
   async findByUserId(user_id: string) {

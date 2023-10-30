@@ -35,12 +35,26 @@ export class ProductsService {
     });
   }
 
-  async findOne(id: string) {
+  async findOne(uuid: string) {
     const product = await this.productRepository.findOne({
       where: {
-        id,
+        uuid,
       },
       relations: ["options", "reviews"],
+    });
+    if (!product)
+      throw new HttpException(
+        "상품이 존재하지 않습니다.",
+        HttpStatus.BAD_REQUEST,
+      );
+    return product;
+  }
+
+  async findById(uuid: string) {
+    const product = await this.productRepository.findOne({
+      where: {
+        uuid,
+      },
     });
     if (!product)
       throw new HttpException(

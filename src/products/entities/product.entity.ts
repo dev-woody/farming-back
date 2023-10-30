@@ -9,11 +9,12 @@ import {
 } from "typeorm";
 import { Option } from "./option.entity";
 import { Review } from "src/reviews/entities/review.entity";
+import { Cart_Item } from "src/cart/entities/cart_Item.entity";
 
 @Entity({ name: "products" })
 export class Product {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  uuid: string;
 
   @Column()
   prd_name: string;
@@ -44,4 +45,7 @@ export class Product {
 
   @OneToMany(() => Review, (review) => review.product)
   reviews: Review[];
+
+  @OneToMany(() => Cart_Item, (cart_item) => cart_item.product)
+  cart_items: Cart_Item[];
 }
