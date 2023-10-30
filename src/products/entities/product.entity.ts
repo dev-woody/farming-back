@@ -17,7 +17,7 @@ export class Product {
   uuid: string;
 
   @Column()
-  prd_name: string;
+  prod_name: string;
 
   @Column()
   category: string;

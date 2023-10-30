@@ -28,11 +28,11 @@ export class CartController {
   async create(@Body() createCartDto: CreateCartDto) {
     await this.userService.findById(createCartDto.user_id);
     await this.productServie.findById(createCartDto.prod_id);
-    const isUnEmpty = await this.cartService.findProductId(
-      createCartDto.prod_id,
-    );
-    if (isUnEmpty)
-      return this.cartService.update(isUnEmpty.uuid, createCartDto);
+    // const isUnEmpty = await this.cartService.findProductId(
+    //   createCartDto.prod_id,
+    // );
+    // if (isUnEmpty)
+    //   return this.cartService.update(isUnEmpty.uuid, createCartDto);
     return this.cartService.create(createCartDto);
   }
 

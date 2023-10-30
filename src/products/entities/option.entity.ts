@@ -17,10 +17,10 @@ export class Option {
   @Column()
   opt_name: string;
 
-  @Column()
+  @Column({ nullable: true })
   prod_id: string;
 
-  @Column()
+  @Column({ default: false })
   unavailable: boolean;
 
   @OneToMany(() => Item_Option, (option_item) => option_item.option_id)

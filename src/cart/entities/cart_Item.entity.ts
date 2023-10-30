@@ -18,10 +18,10 @@ export class Cart_Item {
   @PrimaryGeneratedColumn("uuid")
   uuid: string;
 
-  @Column()
+  @Column({ nullable: true })
   prod_id: string;
 
-  @Column()
+  @Column({ nullable: true })
   cart_id: string;
 
   @Column()

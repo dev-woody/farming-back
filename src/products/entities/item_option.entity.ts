@@ -15,10 +15,10 @@ export class Item_Option {
   uuid: string;
 
   @Column()
-  option_id: string;
-
-  @Column()
   opt_value: string;
+
+  @Column({ nullable: true })
+  option_id: string;
 
   @Column()
   price: number;
@@ -26,7 +26,7 @@ export class Item_Option {
   @Column({ nullable: true })
   sale_price: number;
 
-  @Column()
+  @Column({ default: false })
   unavailable: boolean;
 
   @OneToMany(() => Cart_Item_Option, (cart_option) => cart_option.cart_item_id)

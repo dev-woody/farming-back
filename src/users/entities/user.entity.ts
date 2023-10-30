@@ -50,7 +50,7 @@ export class User {
   carts: Cart[];
 
   @OneToMany(() => Order, (order) => order.user)
-  orders: Cart[];
+  orders: Order[];
 
   @CreateDateColumn()
   createdAt: Date;

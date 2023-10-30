@@ -33,10 +33,6 @@ export class CartService {
     });
   }
 
-  async findProductId(id: string) {
-    return await this.cartRepository.findOne({});
-  }
-
   async update(id: string, updateCartDto: UpdateCartDto) {
     return await this.cartRepository.update(id, updateCartDto);
   }
