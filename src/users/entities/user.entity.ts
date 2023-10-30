@@ -45,7 +45,7 @@ export class User {
   @OneToMany(() => Review, (review) => review.user)
   reviews: Review[];
 
-  @OneToMany(() => Cart, (cart) => cart.user)
+  @OneToMany(() => Cart, (cart) => cart.user_id)
   carts: Cart[];
 
   @CreateDateColumn()

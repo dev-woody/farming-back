@@ -6,6 +6,7 @@ import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/users/entities/user.entity";
 import { Product } from "src/products/entities/product.entity";
+import { CreateCartListDto } from "./dto/create-cartList.dto";
 
 @Injectable()
 export class CartService {
@@ -20,11 +21,11 @@ export class CartService {
     private productRepository: Repository<Product>,
   ) {}
 
-  async create(createCartDto: CreateCartDto) {
-    const { user_id, prod_id } = createCartDto;
+  async create(createCartListDto: CreateCartListDto) {
+    const { user_id, prod_id } = createCartListDto;
     const user = await this.userRepository.findOne({
       where: {
-        user_id,
+        uuid: user_id,
       },
     });
     const product = await this.productRepository.findOne({
@@ -48,23 +49,32 @@ export class CartService {
         "존재하지 않는 상품입니다.",
         HttpStatus.BAD_REQUEST,
       );
-    if (cart_prod) return "존재하는 상품입니다.";
+    if (cart_prod)
+      return await this.cartRepository.update(prod_id, createCartListDto);
 
-    const cartEntity = this.cartRepository.create(createCartDto);
-    return await this.cartRepository.save(cartEntity);
+    const cartEntity = this.cartRepository.create(createCartListDto);
+    return "success";
+    // return await this.cartRepository.save(cartEntity);
   }
 
-  findAll() {
-    return `This action returns all cart`;
+  async findAll(user_id: string) {
+    return await this.cartRepository.find({
+      where: {
+        user_id: user_id,
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} cart`;
+  async findOne(id: string) {
+    return await this.cartRepository.findOne({
+      where: {
+        uuid: id,
+      },
+    });
   }
 
-  update(id: number, updateCartDto: UpdateCartDto) {
-    this.cartRepository.update(id, updateCartDto);
-    return `This action updates a #${id} cart`;
+  update(prod_id: string, createCartListDto: CreateCartListDto) {
+    return this.cartRepository.update(prod_id, createCartListDto);
   }
 
   remove(id: number) {

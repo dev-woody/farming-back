@@ -1,3 +1,4 @@
+import { User } from "src/users/entities/user.entity";
 import {
   Column,
   CreateDateColumn,
@@ -12,7 +13,7 @@ import {
 @Entity({ name: "cart" })
 export class Cart {
   @PrimaryGeneratedColumn("uuid")
-  uuid: number;
+  uuid: string;
 
   @Column()
   user_id: string;
@@ -27,7 +28,7 @@ export class Cart {
   quantity: number;
 
   @Column()
-  result: string;
+  status: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -39,6 +40,6 @@ export class Cart {
   deletedAt: Date;
 
   @JoinColumn({ name: "user_id" })
-  @ManyToOne(() => Cart, (cart) => cart.user_id)
+  @ManyToOne(() => User, (user) => user.carts)
   user: string;
 }
