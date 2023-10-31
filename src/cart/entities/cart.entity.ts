@@ -10,17 +10,24 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { Cart_Item } from "./cart_Item.entity";
+import { Cart_Item_Option } from "./cart_item_option.entity";
+import { Product } from "src/products/entities/product.entity";
 
-@Entity({ name: "cart" })
-export class Cart {
+@Entity({ name: "carts" })
+export class Cart_Item {
   @PrimaryGeneratedColumn("uuid")
   uuid: string;
+
+  @Column()
+  opt_name: string;
 
   @Column({ nullable: true })
   user_id: string;
 
-  @Column()
+  @Column({ nullable: true })
+  prod_id: string;
+
+  @Column({ default: "CART" })
   status: string;
 
   @CreateDateColumn()
@@ -32,8 +39,14 @@ export class Cart {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @OneToMany(() => Cart_Item, (cart_items) => cart_items.cart)
-  cart_items: Cart_Item[];
+  @OneToMany(() => Cart_Item_Option, (option) => option.cart_item, {
+    cascade: true,
+  })
+  cart_item_options: Cart_Item_Option[];
+
+  @JoinColumn({ name: "prod_id" })
+  @ManyToOne(() => Product, (product) => product.cart_items)
+  product: string;
 
   @JoinColumn({ name: "user_id" })
   @ManyToOne(() => User, (user) => user.carts)

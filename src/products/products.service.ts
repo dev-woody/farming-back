@@ -28,13 +28,13 @@ export class ProductsService {
       createProductDto.options.map(async (option: createOptionDto) => {
         const optionEntity = this.optionRepository.create(option);
         const itemOptionEntity = await Promise.all(
-          option.option_item.map(async (item: createItemOptionDto) => {
+          option.option_items.map(async (item: createItemOptionDto) => {
             return await this.optionItemRepository.save(
               this.optionItemRepository.create(item),
             );
           }),
         );
-        optionEntity.option_item = itemOptionEntity;
+        optionEntity.option_items = itemOptionEntity;
         return await this.optionRepository.save(optionEntity);
       }),
     );
@@ -53,7 +53,14 @@ export class ProductsService {
       where: {
         uuid: id,
       },
-      relations: ["options", "reviews"],
+      // order: {
+      //   options: {
+      //     option_items: {
+      //       createdAt: "DESC",
+      //     },
+      //   },
+      // },
+      relations: ["options", "options.option_items", "reviews"],
     });
     if (!product)
       throw new HttpException(
@@ -77,10 +84,10 @@ export class ProductsService {
     return product;
   }
 
-  // update(id: number, updateProductDto: UpdateProductDto) {
-  //   const productEntity = this.productRepository.create(updateProductDto);
-  //   return `This action updates a #${id} product`;
-  // }
+  update(id: number, updateProductDto: UpdateProductDto) {
+    const productEntity = this.productRepository.create(updateProductDto);
+    return `This action updates a #${id} product`;
+  }
 
   remove(id: number) {
     return `This action removes a #${id} product`;

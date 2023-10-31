@@ -9,7 +9,7 @@ import {
 } from "typeorm";
 import { Option } from "./option.entity";
 import { Review } from "src/reviews/entities/review.entity";
-import { Cart_Item } from "src/cart/entities/cart_Item.entity";
+import { Cart_Item } from "src/cart/entities/cart.entity";
 
 @Entity({ name: "products" })
 export class Product {
@@ -40,12 +40,18 @@ export class Product {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @OneToMany(() => Option, (option) => option.product)
+  @OneToMany(() => Option, (option) => option.product, {
+    cascade: true,
+  })
   options: Option[];
 
-  @OneToMany(() => Review, (review) => review.product)
+  @OneToMany(() => Review, (review) => review.product, {
+    cascade: true,
+  })
   reviews: Review[];
 
-  @OneToMany(() => Cart_Item, (cart_item) => cart_item.product)
+  @OneToMany(() => Cart_Item, (cart_item) => cart_item.product, {
+    cascade: true,
+  })
   cart_items: Cart_Item[];
 }

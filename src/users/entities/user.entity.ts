@@ -11,7 +11,7 @@ import {
 
 import * as bcrypt from "bcrypt";
 import { Review } from "src/reviews/entities/review.entity";
-import { Cart } from "src/cart/entities/cart.entity";
+import { Cart_Item } from "src/cart/entities/cart.entity";
 import { Order } from "src/orders/entities/order.entity";
 
 @Entity({ name: "users" })
@@ -43,13 +43,19 @@ export class User {
   @Column()
   phone: string;
 
-  @OneToMany(() => Review, (review) => review.user)
+  @OneToMany(() => Review, (review) => review.user, {
+    cascade: true,
+  })
   reviews: Review[];
 
-  @OneToMany(() => Cart, (cart) => cart.user)
-  carts: Cart[];
+  @OneToMany(() => Cart_Item, (cart) => cart.user, {
+    cascade: true,
+  })
+  carts: Cart_Item[];
 
-  @OneToMany(() => Order, (order) => order.user)
+  @OneToMany(() => Order, (order) => order.user, {
+    cascade: true,
+  })
   orders: Order[];
 
   @CreateDateColumn()

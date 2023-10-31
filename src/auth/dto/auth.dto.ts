@@ -25,6 +25,9 @@ export namespace AuthDTO {
     @IsString()
     readonly address: string;
 
+    @IsString()
+    readonly address_detail: string;
+
     @IsEmail()
     readonly email: string;
 

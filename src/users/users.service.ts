@@ -21,7 +21,7 @@ export class UsersService {
       where: {
         uuid,
       },
-      relations: ["carts", "reviews"],
+      relations: ["carts", "carts.cart_item_options", "reviews"],
     });
     if (!user)
       throw new HttpException(

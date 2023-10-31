@@ -1,10 +1,13 @@
 import {
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import { Cart_Item_Option } from "src/cart/entities/cart_item_option.entity";
 import { Option } from "./option.entity";
@@ -29,10 +32,21 @@ export class Item_Option {
   @Column({ default: false })
   unavailable: boolean;
 
-  @OneToMany(() => Cart_Item_Option, (cart_option) => cart_option.cart_item_id)
-  cart_item_options: Cart_Item_Option[];
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 
   @JoinColumn({ name: "option_id" })
-  @ManyToOne(() => Option, (option) => option.option_item)
+  @ManyToOne(() => Option, (option) => option.option_items)
   option: string;
+
+  @OneToMany(() => Cart_Item_Option, (cart_option) => cart_option.option_item, {
+    cascade: true,
+  })
+  cart_item_options: Cart_Item_Option[];
 }

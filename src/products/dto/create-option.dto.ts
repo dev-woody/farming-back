@@ -6,5 +6,5 @@ export class createOptionDto {
   opt_name: string;
 
   @IsArray()
-  option_item: createItemOptionDto[];
+  option_items: createItemOptionDto[];
 }

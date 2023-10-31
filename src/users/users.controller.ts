@@ -32,7 +32,6 @@ export class UsersController {
   @Get("/test")
   async findByUuId(@Req() req: any) {
     const user = req.user;
-    console.log(user.uuid);
     return await this.usersService.findById(user.uuid);
   }
 
