@@ -35,6 +35,12 @@ export class CreateCartDto {
   @IsString()
   readonly prod_id: string;
 
+  @IsString()
+  readonly prod_img: string;
+
+  @IsString()
+  readonly prod_name: string;
+
   @IsArray()
   readonly options: Cart_Option[];
 }

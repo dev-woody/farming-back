@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Req,
 } from "@nestjs/common";
 import { CartService } from "./cart.service";
 import { CreateCartDto } from "./dto/create-cart.dto";
@@ -38,12 +39,14 @@ export class CartController {
     return this.cartService.create(createCartDto);
   }
 
-  @Get("/all")
-  findAll(@Body() user_id: string) {
-    return this.cartService.findAll(user_id);
+  @UseGuards(AuthGuard)
+  @Get("/")
+  async findByUserId(@Req() req: any) {
+    const user = req.user;
+    return this.cartService.findAUserId(user.uuid);
   }
 
-  @Get("/user:id")
+  @Get(":id")
   findOne(@Param("id") id: string) {
     return this.cartService.findOne(id);
   }

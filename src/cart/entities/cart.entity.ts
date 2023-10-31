@@ -27,6 +27,12 @@ export class Cart_Item {
   @Column({ nullable: true })
   prod_id: string;
 
+  @Column()
+  prod_img: string;
+
+  @Column()
+  prod_name: string;
+
   @Column({ default: "CART" })
   status: string;
 

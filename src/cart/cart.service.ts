@@ -43,11 +43,16 @@ export class CartService {
     return cartItemOptionEntity;
   }
 
-  async findAll(user_id: string) {
+  async findAll() {
+    return await this.cartRepository.find();
+  }
+
+  async findAUserId(uuid: string) {
     return await this.cartRepository.find({
       where: {
-        user_id: user_id,
+        user_id: uuid,
       },
+      relations: ["cart_item_options"],
     });
   }
 
