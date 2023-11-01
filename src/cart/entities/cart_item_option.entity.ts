@@ -8,10 +8,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { Cart_Item } from "./cart.entity";
+import { Cart_Item } from "./cart_item.entity";
 import { Item_Option } from "src/products/entities/item_option.entity";
 
-@Entity({ name: "cart_item" })
+@Entity({ name: "cart_item_options" })
 export class Cart_Item_Option {
   @PrimaryGeneratedColumn("uuid")
   uuid: string;

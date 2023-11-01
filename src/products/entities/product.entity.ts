@@ -9,7 +9,7 @@ import {
 } from "typeorm";
 import { Option } from "./option.entity";
 import { Review } from "src/reviews/entities/review.entity";
-import { Cart_Item } from "src/cart/entities/cart.entity";
+import { Cart_Item } from "src/cart/entities/cart_item.entity";
 
 @Entity({ name: "products" })
 export class Product {

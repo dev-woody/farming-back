@@ -11,7 +11,7 @@ import {
 
 import * as bcrypt from "bcrypt";
 import { Review } from "src/reviews/entities/review.entity";
-import { Cart_Item } from "src/cart/entities/cart.entity";
+import { Cart } from "src/cart/entities/cart.entity";
 import { Order } from "src/orders/entities/order.entity";
 
 @Entity({ name: "users" })
@@ -21,6 +21,9 @@ export class User {
 
   @Column()
   name: string;
+
+  @Column()
+  profile_img: string;
 
   @Column()
   user_id: string;
@@ -48,10 +51,10 @@ export class User {
   })
   reviews: Review[];
 
-  @OneToMany(() => Cart_Item, (cart) => cart.user, {
+  @OneToMany(() => Cart, (cart) => cart.user, {
     cascade: true,
   })
-  carts: Cart_Item[];
+  carts: Cart[];
 
   @OneToMany(() => Order, (order) => order.user, {
     cascade: true,
