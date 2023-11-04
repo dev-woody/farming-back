@@ -1,26 +1,20 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
 import { Option } from "./option.entity";
 import { Review } from "src/reviews/entities/review.entity";
 import { Cart_Item } from "src/cart/entities/cart_item.entity";
+import { CommonColumns } from "types/common_type";
+import { Order_Item } from "src/orders/entities/order_item.entity";
 
 @Entity({ name: "products" })
-export class Product {
-  @PrimaryGeneratedColumn("uuid")
-  uuid: string;
-
+export class Product extends CommonColumns {
   @Column()
   prod_name: string;
 
   @Column()
   category: string;
+
+  @Column()
+  default_price: number;
 
   @Column()
   description: string;
@@ -31,14 +25,11 @@ export class Product {
   @Column()
   detail_page: string;
 
-  @CreateDateColumn()
-  createdAt: Date;
+  @Column()
+  sale_rate: number;
 
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date;
+  @Column()
+  given_point_rate: number;
 
   @OneToMany(() => Option, (option) => option.product, {
     cascade: true,
@@ -54,4 +45,9 @@ export class Product {
     cascade: true,
   })
   cart_items: Cart_Item[];
+
+  @OneToMany(() => Order_Item, (order_item) => order_item.product, {
+    cascade: true,
+  })
+  order_items: Order_Item[];
 }

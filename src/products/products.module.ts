@@ -5,7 +5,7 @@ import { ProductsController } from "./products.controller";
 import { ProductsService } from "./products.service";
 import { Cart_Item } from "src/cart/entities/cart.entity";
 import { Option } from "./entities/option.entity";
-import { Item_Option } from "./entities/item_option.entity";
+import { Item_Option } from "./entities/option_item_val.entity";
 
 @Module({
   imports: [

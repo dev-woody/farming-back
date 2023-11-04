@@ -8,7 +8,7 @@ import { UpdateCartDto } from "./dto/update-cart.dto";
 import { Cart_Item } from "./entities/cart.entity";
 import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Cart_Item_Option } from "./entities/cart_item_option.entity";
+import { Cart_Prod_Option_Val } from "./entities/cart_prod_option_val.entity";
 
 @Injectable()
 export class CartService {
@@ -16,8 +16,8 @@ export class CartService {
     @InjectRepository(Cart_Item)
     private cartRepository: Repository<Cart_Item>,
 
-    @InjectRepository(Cart_Item_Option)
-    private cartItemOptionRepository: Repository<Cart_Item_Option>,
+    @InjectRepository(Cart_Prod_Option_Val)
+    private cartItemOptionRepository: Repository<Cart_Prod_Option_Val>,
   ) {}
 
   async create(CreateCartDto: CreateCartDto) {
@@ -34,7 +34,7 @@ export class CartService {
             },
           ),
         );
-        cartEntity.cart_item_options = cartItemOptionEntity;
+        cartEntity.cart_prod_option_vals = cartItemOptionEntity;
         cartEntity.user_id = CreateCartDto.user_id;
         cartEntity.prod_id = CreateCartDto.prod_id;
         return await this.cartRepository.save(cartEntity);
@@ -52,7 +52,7 @@ export class CartService {
       where: {
         user_id: uuid,
       },
-      relations: ["cart_item_options"],
+      relations: ["cart_prod_option_vals"],
     });
   }
 

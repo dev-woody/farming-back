@@ -1,22 +1,10 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { Product } from "./product.entity";
-import { Item_Option } from "./item_option.entity";
+import { Prod_Option_Val } from "./option_item_val.entity";
+import { CommonColumns } from "types/common_type";
 
 @Entity({ name: "prod_options" })
-export class Option {
-  @PrimaryGeneratedColumn("uuid")
-  uuid: string;
-
+export class Option extends CommonColumns {
   @Column()
   opt_name: string;
 
@@ -26,21 +14,12 @@ export class Option {
   @Column({ default: false })
   unavailable: boolean;
 
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date;
-
-  @JoinColumn({ name: "prod_id" })
+  @JoinColumn({ name: "prod_uuid" })
   @ManyToOne(() => Product, (product) => product.options)
   product: string;
 
-  @OneToMany(() => Item_Option, (option_item) => option_item.option, {
+  @OneToMany(() => Prod_Option_Val, (option_item) => option_item.option, {
     cascade: true,
   })
-  option_items: Item_Option[];
+  option_items: Prod_Option_Val[];
 }

@@ -1,24 +1,13 @@
-import {
-  BeforeInsert,
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from "typeorm";
+import { BeforeInsert, Column, Entity, OneToMany } from "typeorm";
 
 import * as bcrypt from "bcrypt";
 import { Review } from "src/reviews/entities/review.entity";
 import { Cart } from "src/cart/entities/cart.entity";
 import { Order } from "src/orders/entities/order.entity";
+import { CommonColumns } from "types/common_type";
 
 @Entity({ name: "users" })
-export class User {
-  @PrimaryGeneratedColumn("uuid")
-  uuid: string;
-
+export class User extends CommonColumns {
   @Column()
   name: string;
 
@@ -60,15 +49,6 @@ export class User {
     cascade: true,
   })
   orders: Order[];
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date;
 
   @BeforeInsert()
   private beforeInsert() {

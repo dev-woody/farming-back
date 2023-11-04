@@ -1,23 +1,11 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { Cart_Item_Option } from "./cart_item_option.entity";
 import { Cart } from "./cart.entity";
 import { Product } from "src/products/entities/product.entity";
+import { CommonColumns } from "types/common_type";
 
 @Entity({ name: "cart_items" })
-export class Cart_Item {
-  @PrimaryGeneratedColumn("uuid")
-  uuid: string;
-
+export class Cart_Item extends CommonColumns {
   @Column()
   opt_name: string;
 
@@ -27,34 +15,16 @@ export class Cart_Item {
   @Column({ nullable: true })
   cart_id: string;
 
-  @Column()
-  prod_img: string;
-
-  @Column()
-  prod_name: string;
-
-  @Column({ default: "CART" })
-  status: string;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date;
-
   @OneToMany(() => Cart_Item_Option, (option) => option.cart_item, {
     cascade: true,
   })
   cart_item_options: Cart_Item_Option[];
 
-  @JoinColumn({ name: "cart_id" })
+  @JoinColumn({ name: "cart_uuid" })
   @ManyToOne(() => Cart, (cart) => cart.cart_items)
   cart: string;
 
-  @JoinColumn({ name: "prod_id" })
+  @JoinColumn({ name: "prod_uuid" })
   @ManyToOne(() => Product, (product) => product.cart_items)
   product: string;
 }

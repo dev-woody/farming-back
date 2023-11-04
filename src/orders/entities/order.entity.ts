@@ -1,28 +1,21 @@
 import { User } from "src/users/entities/user.entity";
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
+import { CommonColumns } from "types/common_type";
+import { Order_Item } from "./order_item.entity";
 
 @Entity({ name: "orders" })
-export class Order {
-  @PrimaryGeneratedColumn("uuid")
-  uuid: number;
-
+export class Order extends CommonColumns {
   @Column({ nullable: true })
   user_id: string;
 
   @Column()
-  price: number;
+  order_name: string;
 
   @Column()
-  memo: string;
+  order_price: number;
+
+  @Column()
+  shipping_fee: number;
 
   @Column()
   status: number;
@@ -42,16 +35,10 @@ export class Order {
   @Column()
   delevery_memo: string;
 
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date;
-
-  @JoinColumn({ name: "user_id" })
+  @JoinColumn({ name: "user_uuid" })
   @ManyToOne(() => User, (user) => user.orders)
   user: string;
+
+  @OneToMany(() => Order_Item, (order_item) => order_item.order)
+  order_items: Order_Item[];
 }

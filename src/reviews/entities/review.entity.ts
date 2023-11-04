@@ -44,7 +44,7 @@ export class Review {
   @ManyToOne(() => Product, (product) => product.reviews)
   product: string;
 
-  @JoinColumn({ name: "user_id" })
+  @JoinColumn({ name: "user_uuid" })
   @ManyToOne(() => User, (user) => user.reviews)
   user: string;
 }

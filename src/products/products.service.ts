@@ -5,7 +5,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Product } from "./entities/product.entity";
 import { Repository } from "typeorm";
 import { Option } from "./entities/option.entity";
-import { Item_Option } from "./entities/item_option.entity";
+import { Item_Option } from "./entities/option_item_val.entity";
 import { createItemOptionDto } from "./dto/create-item-option..dto";
 import { createOptionDto } from "./dto/create-option.dto";
 
