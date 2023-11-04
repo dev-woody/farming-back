@@ -8,13 +8,13 @@ import {
 
 @Entity()
 export abstract class DateColumns {
-  @CreateDateColumn({ precision: 0 })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({ precision: 0 })
+  @UpdateDateColumn()
   updatedAt: Date;
 
-  @DeleteDateColumn({ precision: 0 })
+  @DeleteDateColumn()
   deletedAt: Date;
 }
 

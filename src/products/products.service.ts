@@ -5,7 +5,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Product } from "./entities/product.entity";
 import { Repository } from "typeorm";
 import { Option } from "./entities/option.entity";
-import { Item_Option } from "./entities/option_item_val.entity";
+import { Prod_Option_Val } from "./entities/option_item_val.entity";
 import { createItemOptionDto } from "./dto/create-item-option..dto";
 import { createOptionDto } from "./dto/create-option.dto";
 
@@ -18,8 +18,8 @@ export class ProductsService {
     @InjectRepository(Option)
     private optionRepository: Repository<Option>,
 
-    @InjectRepository(Item_Option)
-    private optionItemRepository: Repository<Item_Option>,
+    @InjectRepository(Prod_Option_Val)
+    private optionItemRepository: Repository<Prod_Option_Val>,
   ) {}
 
   async create(createProductDto: CreateProductDto) {

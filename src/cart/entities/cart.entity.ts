@@ -6,7 +6,7 @@ import { CommonColumns } from "types/common_type";
 @Entity({ name: "carts" })
 export class Cart extends CommonColumns {
   @Column({ nullable: true })
-  user_id: string;
+  user_uuid: string;
 
   @OneToMany(() => Cart_Item, (cart_item) => cart_item.cart, {
     cascade: true,

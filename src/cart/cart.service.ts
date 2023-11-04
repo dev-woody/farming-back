@@ -5,19 +5,19 @@ import {
   CreateCartDto,
 } from "./dto/create-cart.dto";
 import { UpdateCartDto } from "./dto/update-cart.dto";
-import { Cart_Item } from "./entities/cart.entity";
+import { Cart } from "./entities/cart.entity";
 import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Cart_Prod_Option_Val } from "./entities/cart_prod_option_val.entity";
+import { Cart_Item_Option } from "./entities/cart_item_option.entity";
 
 @Injectable()
 export class CartService {
   constructor(
-    @InjectRepository(Cart_Item)
-    private cartRepository: Repository<Cart_Item>,
+    @InjectRepository(Cart)
+    private cartRepository: Repository<Cart>,
 
-    @InjectRepository(Cart_Prod_Option_Val)
-    private cartItemOptionRepository: Repository<Cart_Prod_Option_Val>,
+    @InjectRepository(Cart_Item_Option)
+    private cartItemOptionRepository: Repository<Cart_Item_Option>,
   ) {}
 
   async create(CreateCartDto: CreateCartDto) {
@@ -34,9 +34,9 @@ export class CartService {
             },
           ),
         );
-        cartEntity.cart_prod_option_vals = cartItemOptionEntity;
-        cartEntity.user_id = CreateCartDto.user_id;
-        cartEntity.prod_id = CreateCartDto.prod_id;
+        // cartEntity.cart_prod_option_vals = cartItemOptionEntity;
+        cartEntity.user_uuid = CreateCartDto.user_id;
+        // cartEntity.prod_id = CreateCartDto.prod_id;
         return await this.cartRepository.save(cartEntity);
       }),
     );
@@ -50,7 +50,7 @@ export class CartService {
   async findAUserId(uuid: string) {
     return await this.cartRepository.find({
       where: {
-        user_id: uuid,
+        user_uuid: uuid,
       },
       relations: ["cart_prod_option_vals"],
     });
@@ -58,9 +58,9 @@ export class CartService {
 
   async findProductId(prod_id: string) {
     return await this.cartRepository.findOne({
-      where: {
-        prod_id,
-      },
+      // where: {
+      //   prod_id,
+      // },
     });
   }
 
@@ -73,7 +73,7 @@ export class CartService {
   }
 
   async update(id: string, updateCartDto: UpdateCartDto) {
-    return await this.cartRepository.update(id, updateCartDto);
+    // return await this.cartRepository.update(id, updateCartDto);
   }
 
   async remove(uuid: string) {

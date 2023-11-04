@@ -10,17 +10,16 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { CommonColumns } from "types/common_type";
 
 @Entity({ name: "reviews" })
-export class Review {
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
+export class Review extends CommonColumns  {
 
   @Column({ nullable: true })
   product_id: string;
 
   @Column({ nullable: true })
-  user_id: string;
+  user_uuid: string;
 
   @Column()
   rating: number;
@@ -30,15 +29,6 @@ export class Review {
 
   @Column({ type: "text", array: true })
   image_id: string[];
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date;
 
   @JoinColumn({ name: "product_id" })
   @ManyToOne(() => Product, (product) => product.reviews)
