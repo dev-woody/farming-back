@@ -8,9 +8,7 @@ import { Option } from "./entities/option.entity";
 import { Prod_Option_Val } from "./entities/option_item_val.entity";
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Product, Option, Prod_Option_Val, Cart]),
-  ],
+  imports: [TypeOrmModule.forFeature([Product, Option, Prod_Option_Val, Cart])],
   exports: [ProductsService],
   controllers: [ProductsController],
   providers: [ProductsService],

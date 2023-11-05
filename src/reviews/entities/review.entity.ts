@@ -1,20 +1,10 @@
 import { Product } from "src/products/entities/product.entity";
 import { User } from "src/users/entities/user.entity";
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import { CommonColumns } from "types/common_type";
 
 @Entity({ name: "reviews" })
-export class Review extends CommonColumns  {
-
+export class Review extends CommonColumns {
   @Column({ nullable: true })
   product_id: string;
 

@@ -6,10 +6,10 @@ import { Order_Item_Opt } from "./order_item_opt.entity";
 
 @Entity({ name: "order_items" })
 export class Order_Item extends CommonColumns {
-  @Column()
+  @Column({ nullable: true })
   order_uuid: string;
 
-  @Column()
+  @Column({ nullable: true })
   prod_uuid: string;
 
   @Column()
