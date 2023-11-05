@@ -5,10 +5,10 @@ import { Prod_Option_Val } from "src/products/entities/option_item_val.entity";
 
 @Entity({ name: "cart_item_options" })
 export class Cart_Item_Option extends CommonColumns {
-  @Column({ nullable: true })
+  @Column()
   cart_item_id: string;
 
-  @Column({ nullable: true })
+  @Column()
   prod_opt_val_uuid: string;
 
   @Column()

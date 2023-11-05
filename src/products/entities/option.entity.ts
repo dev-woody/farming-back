@@ -8,7 +8,7 @@ export class Option extends CommonColumns {
   @Column()
   opt_name: string;
 
-  @Column({ nullable: true })
+  @Column()
   prod_id: string;
 
   @Column({ default: false })

@@ -9,13 +9,13 @@ export class Prod_Option_Val extends CommonColumns {
   @Column()
   opt_value: string;
 
-  @Column({ nullable: true })
+  @Column()
   option_id: string;
 
   @Column()
   price: number;
 
-  @Column({ nullable: true })
+  @Column()
   sale_price: number;
 
   @Column({ default: false })

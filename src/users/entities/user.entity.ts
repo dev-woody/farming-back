@@ -11,7 +11,7 @@ export class User extends CommonColumns {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   profile_img: string;
 
   @Column()

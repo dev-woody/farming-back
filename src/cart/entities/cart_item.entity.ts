@@ -9,10 +9,10 @@ export class Cart_Item extends CommonColumns {
   @Column()
   opt_name: string;
 
-  @Column({ nullable: true })
+  @Column()
   prod_uuid: string;
 
-  @Column({ nullable: true })
+  @Column()
   cart_uuid: string;
 
   @OneToMany(() => Cart_Item_Option, (option) => option.cart_item, {

@@ -17,6 +17,9 @@ export namespace AuthDTO {
     password: string;
 
     @IsString()
+    profile_img: string;
+
+    @IsString()
     name: string;
 
     @IsNumber()

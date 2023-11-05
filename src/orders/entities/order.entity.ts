@@ -5,7 +5,7 @@ import { Order_Item } from "./order_item.entity";
 
 @Entity({ name: "orders" })
 export class Order extends CommonColumns {
-  @Column({ nullable: true })
+  @Column()
   user_uuid: string;
 
   @Column()

@@ -5,10 +5,10 @@ import { CommonColumns } from "types/common_type";
 
 @Entity({ name: "order_item_opts" })
 export class Order_Item_Opt extends CommonColumns {
-  @Column({ nullable: true })
+  @Column()
   order_item_uuid: string;
 
-  @Column({ nullable: true })
+  @Column()
   prod_opt_val_uuid: string;
 
   @Column()

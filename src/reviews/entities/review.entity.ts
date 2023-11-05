@@ -5,10 +5,10 @@ import { CommonColumns } from "types/common_type";
 
 @Entity({ name: "reviews" })
 export class Review extends CommonColumns {
-  @Column({ nullable: true })
+  @Column()
   prod_uuid: string;
 
-  @Column({ nullable: true })
+  @Column()
   user_uuid: string;
 
   @Column()
