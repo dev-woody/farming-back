@@ -1,14 +1,14 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import { Cart_Item } from "./cart_item.entity";
-import { DateColumns } from "types/common_type";
+import { CommonColumns } from "types/common_type";
 import { Prod_Option_Val } from "src/products/entities/option_item_val.entity";
 
 @Entity({ name: "cart_item_options" })
-export class Cart_Item_Option extends DateColumns {
-  @PrimaryColumn()
+export class Cart_Item_Option extends CommonColumns {
+  @Column({ nullable: true })
   cart_item_id: string;
 
-  @PrimaryColumn()
+  @Column({ nullable: true })
   prod_opt_val_uuid: string;
 
   @Column()

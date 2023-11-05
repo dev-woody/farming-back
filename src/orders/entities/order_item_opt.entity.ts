@@ -1,13 +1,14 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import { Prod_Option_Val } from "src/products/entities/option_item_val.entity";
 import { Order_Item } from "./order_item.entity";
+import { CommonColumns } from "types/common_type";
 
 @Entity({ name: "order_item_opts" })
-export class Order_Item_Opt {
-  @PrimaryColumn()
+export class Order_Item_Opt extends CommonColumns {
+  @Column({ nullable: true })
   order_item_uuid: string;
 
-  @PrimaryColumn()
+  @Column({ nullable: true })
   prod_opt_val_uuid: string;
 
   @Column()

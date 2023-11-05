@@ -6,7 +6,7 @@ import { CommonColumns } from "types/common_type";
 @Entity({ name: "reviews" })
 export class Review extends CommonColumns {
   @Column({ nullable: true })
-  product_id: string;
+  prod_uuid: string;
 
   @Column({ nullable: true })
   user_uuid: string;
@@ -17,10 +17,10 @@ export class Review extends CommonColumns {
   @Column()
   content: string;
 
-  @Column({ type: "text", array: true })
-  image_id: string[];
+  // @Column({ type: "text", array: true })
+  // image_id: string[];
 
-  @JoinColumn({ name: "product_id" })
+  @JoinColumn({ name: "prod_uuid" })
   @ManyToOne(() => Product, (product) => product.reviews)
   product: string;
 
