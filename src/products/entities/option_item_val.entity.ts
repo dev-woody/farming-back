@@ -24,7 +24,7 @@ export class Prod_Option_Val extends CommonColumns {
 
   @OneToMany(
     () => Cart_Item_Option,
-    (cart_option) => cart_option.prod_opt_val,
+    (cart_option) => cart_option.prod_opt_val_uuid,
     {
       cascade: true,
     },

@@ -9,22 +9,16 @@ export class Cart_Item extends CommonColumns {
   @Column()
   opt_name: string;
 
-  @Column()
-  prod_uuid: string;
-
-  @Column()
-  cart_uuid: string;
-
-  @OneToMany(() => Cart_Item_Option, (option) => option.cart_item, {
+  @OneToMany(() => Cart_Item_Option, (option) => option.cart_item_uuid, {
     cascade: true,
   })
   cart_item_options: Cart_Item_Option[];
 
-  @JoinColumn({ name: "cart_uuid" })
+  @JoinColumn()
   @ManyToOne(() => Cart, (cart) => cart.cart_items)
-  cart: string;
+  cart_uuid: string;
 
-  @JoinColumn({ name: "prod_uuid" })
+  @JoinColumn()
   @ManyToOne(() => Product, (product) => product.cart_items)
-  product: string;
+  prod_uuid: string;
 }

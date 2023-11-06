@@ -30,7 +30,7 @@ export class UsersController {
 
   @UseGuards(AuthGuard)
   @Get("/test")
-  async findByUuId(@Req() req: any) {
+  async findById(@Req() req: any) {
     const user = req.user;
     return await this.usersService.findById(user.uuid);
   }

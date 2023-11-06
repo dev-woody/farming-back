@@ -10,6 +10,7 @@ import { ProductsService } from "src/products/products.service";
 import { Prod_Option_Val } from "src/products/entities/option_item_val.entity";
 import { UsersService } from "src/users/users.service";
 import { Cart_Item_Option } from "./entities/cart_item_option.entity";
+import { Cart_Item } from "./entities/cart_item.entity";
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { Cart_Item_Option } from "./entities/cart_item_option.entity";
       Product,
       Option,
       Prod_Option_Val,
+      Cart_Item,
       Cart_Item_Option,
     ]),
   ],

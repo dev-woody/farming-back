@@ -1,6 +1,6 @@
 import { IsArray, IsInt, IsString } from "class-validator";
 
-export class Cart_Option_Item {
+export class Cart_Option_ValsDto {
   @IsString()
   readonly uuid: string;
 
@@ -11,13 +11,10 @@ export class Cart_Option_Item {
   readonly price: number;
 
   @IsInt()
-  readonly sale_price: number;
-
-  @IsInt()
   readonly quantity: number;
 }
 
-export class Cart_Option {
+export class Cart_OptionDto {
   @IsString()
   readonly uuid: string;
 
@@ -25,22 +22,13 @@ export class Cart_Option {
   readonly opt_name: string;
 
   @IsArray()
-  readonly option_items: Cart_Option_Item[];
+  readonly option_items: Cart_Option_ValsDto[];
 }
 
 export class CreateCartDto {
   @IsString()
-  readonly user_id: string;
-
-  @IsString()
-  readonly prod_id: string;
-
-  @IsString()
-  readonly prod_img: string;
-
-  @IsString()
-  readonly prod_name: string;
+  readonly user_uuid: string;
 
   @IsArray()
-  readonly options: Cart_Option[];
+  readonly options: Cart_OptionDto[];
 }

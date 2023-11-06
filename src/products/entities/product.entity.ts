@@ -41,7 +41,7 @@ export class Product extends CommonColumns {
   })
   reviews: Review[];
 
-  @OneToMany(() => Cart_Item, (cart_item) => cart_item.product, {
+  @OneToMany(() => Cart_Item, (cart_item) => cart_item.prod_uuid, {
     cascade: true,
   })
   cart_items: Cart_Item[];

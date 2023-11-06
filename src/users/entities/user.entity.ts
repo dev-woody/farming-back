@@ -40,7 +40,7 @@ export class User extends CommonColumns {
   })
   reviews: Review[];
 
-  @OneToMany(() => Cart, (cart) => cart.user, {
+  @OneToMany(() => Cart, (cart) => cart.user_uuid, {
     cascade: true,
   })
   carts: Cart[];
