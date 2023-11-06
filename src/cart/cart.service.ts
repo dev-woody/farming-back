@@ -44,7 +44,7 @@ export class CartService {
       }),
     );
     cartEntity.cart_items = cartItemEntity;
-    cartEntity.user_uuid = CreateCartDto.user_uuid;
+    cartEntity.user = CreateCartDto.user;
     return await this.cartRepository.save(cartEntity);
     // return cartEntity;
   }
@@ -55,19 +55,12 @@ export class CartService {
     });
   }
 
-  async findKey() {
-    return await this.cartRepository.find({
-      select: {
-        user_uuid: true,
-      },
-    });
-  }
-
   async findUserId(uuid: string) {
+    console.log("uuid = " + uuid);
     return await this.cartRepository.find({
-      where: {
-        user_uuid: uuid,
-      },
+      // where: {
+      //   user_uuid: uuid,
+      // },
       relations: ["user_uuid", "cart_items", "cart_items.cart_item_options"],
     });
   }

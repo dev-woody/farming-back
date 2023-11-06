@@ -36,6 +36,13 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard)
+  @Get("/cart")
+  async findCart(@Req() req: any) {
+    const user = req.user;
+    return await this.usersService.findCart(user.uuid);
+  }
+
+  @UseGuards(AuthGuard)
   @Get()
   async getProfile(@Req() req: any) {
     const user = req.user;

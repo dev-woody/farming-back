@@ -1,5 +1,5 @@
 import { User } from "src/users/entities/user.entity";
-import { Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
+import { Entity, JoinColumn, OneToMany, OneToOne } from "typeorm";
 import { Cart_Item } from "./cart_item.entity";
 import { CommonColumns } from "types/common_type";
 
@@ -11,6 +11,6 @@ export class Cart extends CommonColumns {
   cart_items: Cart_Item[];
 
   @JoinColumn()
-  @ManyToOne(() => User, (user) => user.carts)
-  user_uuid: string;
+  @OneToOne(() => User, (user) => user.carts)
+  user: string;
 }

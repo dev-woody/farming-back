@@ -27,7 +27,7 @@ export class Cart_OptionDto {
 
 export class CreateCartDto {
   @IsString()
-  readonly user_uuid: string;
+  readonly user: string;
 
   @IsArray()
   readonly options: Cart_OptionDto[];

@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity, OneToMany } from "typeorm";
+import { BeforeInsert, Column, Entity, OneToMany, OneToOne } from "typeorm";
 
 import * as bcrypt from "bcrypt";
 import { Review } from "src/reviews/entities/review.entity";
@@ -40,10 +40,10 @@ export class User extends CommonColumns {
   })
   reviews: Review[];
 
-  @OneToMany(() => Cart, (cart) => cart.user_uuid, {
+  @OneToOne(() => Cart, (cart) => cart.user, {
     cascade: true,
   })
-  carts: Cart[];
+  carts: Cart;
 
   @OneToMany(() => Order, (order) => order.user, {
     cascade: true,

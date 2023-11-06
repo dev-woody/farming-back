@@ -36,6 +36,26 @@ export class UsersService {
     return user;
   }
 
+  async findCart(uuid: string) {
+    const user = await this.userRepository.findOne({
+      where: {
+        uuid,
+      },
+      relations: [
+        "carts",
+        "carts.cart_items",
+        "carts.cart_items.cart_item_options",
+        "reviews",
+      ],
+    });
+    if (!user)
+      throw new HttpException(
+        "존재하지 않는 유저입니다.",
+        HttpStatus.BAD_REQUEST,
+      );
+    return user.carts;
+  }
+
   async findByUserId(user_id: string) {
     return await this.userRepository.findOne({
       where: {

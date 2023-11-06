@@ -27,7 +27,7 @@ export class CartController {
   // @UseGuards(AuthGuard)
   @Post("/create")
   async create(@Body() createCartDto: CreateCartDto) {
-    await this.userService.findById(createCartDto.user_uuid);
+    await this.userService.findById(createCartDto.user);
     // await this.productServie.findById(createCartDto.prod_id);
     // const isUnEmpty = await this.cartService.findProductId(
     //   createCartDto.prod_id,
@@ -43,7 +43,6 @@ export class CartController {
   @Get("/")
   async findByUserId(@Req() req: any) {
     const user = req.user;
-    console.log(user);
     return this.cartService.findUserId(user.uuid);
     // return this.cartService.findAll();
   }
