@@ -1,4 +1,4 @@
-import { IsArray, IsString } from "class-validator";
+import { IsArray, IsNumber, IsString } from "class-validator";
 import { Option } from "../entities/option.entity";
 
 export class CreateProductDto {
@@ -8,6 +8,9 @@ export class CreateProductDto {
   @IsString()
   readonly category: string;
 
+  @IsNumber()
+  default_price: number;
+
   @IsString()
   readonly description: string;
 
@@ -16,6 +19,12 @@ export class CreateProductDto {
 
   @IsString()
   readonly detail_page: string;
+
+  @IsNumber()
+  sale_rate: number;
+
+  @IsNumber()
+  given_point_rate: number;
 
   @IsArray()
   readonly options: Option[];

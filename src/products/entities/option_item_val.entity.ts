@@ -9,21 +9,18 @@ export class Prod_Option_Val extends CommonColumns {
   @Column()
   opt_value: string;
 
-  @Column()
-  option_id: string;
+  // @Column()
+  // option_id: string;
 
   @Column()
   price: number;
 
-  @Column()
-  sale_price: number;
-
   @Column({ default: false })
   unavailable: boolean;
 
-  @JoinColumn({ name: "option_id" })
+  @JoinColumn()
   @ManyToOne(() => Option, (option) => option.option_items)
-  option: string;
+  option_uuid: string;
 
   @OneToMany(
     () => Cart_Item_Option,

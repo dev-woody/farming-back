@@ -6,7 +6,4 @@ export class createItemOptionDto {
 
   @IsInt()
   price: number;
-
-  @IsInt()
-  sale_price: number;
 }

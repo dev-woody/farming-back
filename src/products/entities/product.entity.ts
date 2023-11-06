@@ -31,7 +31,7 @@ export class Product extends CommonColumns {
   @Column()
   given_point_rate: number;
 
-  @OneToMany(() => Option, (option) => option.product, {
+  @OneToMany(() => Option, (option) => option.prod_uuid, {
     cascade: true,
   })
   options: Option[];
