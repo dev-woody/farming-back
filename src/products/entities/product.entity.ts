@@ -14,9 +14,6 @@ export class Product extends CommonColumns {
   category: string;
 
   @Column()
-  default_price: number;
-
-  @Column()
   description: string;
 
   @Column()
@@ -31,7 +28,7 @@ export class Product extends CommonColumns {
   @Column()
   given_point_rate: number;
 
-  @OneToMany(() => Option, (option) => option.prod_uuid, {
+  @OneToMany(() => Option, (option) => option.product, {
     cascade: true,
   })
   options: Option[];
@@ -41,7 +38,7 @@ export class Product extends CommonColumns {
   })
   reviews: Review[];
 
-  @OneToMany(() => Cart_Item, (cart_item) => cart_item.prod_uuid, {
+  @OneToMany(() => Cart_Item, (cart_item) => cart_item.product, {
     cascade: true,
   })
   cart_items: Cart_Item[];

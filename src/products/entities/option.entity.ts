@@ -16,9 +16,9 @@ export class Option extends CommonColumns {
 
   @JoinColumn()
   @ManyToOne(() => Product, (product) => product.options)
-  prod_uuid: string;
+  product: string;
 
-  @OneToMany(() => Prod_Option_Val, (option_item) => option_item.option_uuid, {
+  @OneToMany(() => Prod_Option_Val, (option_item) => option_item.option, {
     cascade: true,
   })
   option_items: Prod_Option_Val[];

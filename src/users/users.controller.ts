@@ -46,6 +46,6 @@ export class UsersController {
   @Get()
   async getProfile(@Req() req: any) {
     const user = req.user;
-    return delete user.password && user;
+    return user;
   }
 }

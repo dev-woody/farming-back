@@ -5,12 +5,12 @@ import { CommonColumns } from "types/common_type";
 
 @Entity({ name: "carts" })
 export class Cart extends CommonColumns {
-  @OneToMany(() => Cart_Item, (cart_item) => cart_item.cart_uuid, {
+  @OneToMany(() => Cart_Item, (cart_item) => cart_item.cart, {
     cascade: true,
   })
   cart_items: Cart_Item[];
 
   @JoinColumn()
   @OneToOne(() => User, (user) => user.carts)
-  user: string;
+  user: User;
 }

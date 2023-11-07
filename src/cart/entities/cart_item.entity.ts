@@ -6,19 +6,19 @@ import { CommonColumns } from "types/common_type";
 
 @Entity({ name: "cart_items" })
 export class Cart_Item extends CommonColumns {
-  @Column()
-  opt_name: string;
-
-  @OneToMany(() => Cart_Item_Option, (option) => option.cart_item_uuid, {
+  @OneToMany(() => Cart_Item_Option, (option) => option.cart_item, {
     cascade: true,
   })
-  cart_item_options: Cart_Item_Option[];
+  cart_item_opts: Cart_Item_Option[];
+
+  @Column()
+  total_price: number;
 
   @JoinColumn()
   @ManyToOne(() => Cart, (cart) => cart.cart_items)
-  cart_uuid: string;
+  cart: string;
 
   @JoinColumn()
   @ManyToOne(() => Product, (product) => product.cart_items)
-  prod_uuid: string;
+  product: string;
 }

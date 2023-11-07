@@ -3,16 +3,22 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "./entities/user.entity";
 import { Repository } from "typeorm";
 import { AuthDTO } from "src/auth/dto/auth.dto";
+import { Cart } from "src/cart/entities/cart.entity";
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+
+    @InjectRepository(Cart)
+    private cartRepository: Repository<Cart>,
   ) {}
 
   async create(authDTO: AuthDTO.SignUp) {
     const userEntity = this.userRepository.create(authDTO);
+    const cartEntity = this.cartRepository.create(userEntity);
+    userEntity.carts = cartEntity;
     return await this.userRepository.save(userEntity);
   }
 
@@ -24,7 +30,7 @@ export class UsersService {
       relations: [
         "carts",
         "carts.cart_items",
-        "carts.cart_items.cart_item_options",
+        "carts.cart_items.cart_item_opts",
         "reviews",
       ],
     });
@@ -44,7 +50,7 @@ export class UsersService {
       relations: [
         "carts",
         "carts.cart_items",
-        "carts.cart_items.cart_item_options",
+        "carts.cart_items.cart_item_opts",
         "reviews",
       ],
     });
@@ -61,6 +67,21 @@ export class UsersService {
       where: {
         user_id,
       },
+      select: [
+        "uuid",
+        "name",
+        "profile_img",
+        "user_id",
+        "password",
+        "phone",
+        "email",
+        "zip_code",
+        "address",
+        "address_detail",
+        "createdAt",
+        "updatedAt",
+        "deletedAt",
+      ],
     });
   }
 

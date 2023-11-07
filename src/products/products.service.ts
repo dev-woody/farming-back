@@ -44,7 +44,7 @@ export class ProductsService {
 
   async findAll() {
     return await this.productRepository.find({
-      relations: ["options", "reviews"],
+      relations: ["options", "options.option_items", "reviews"],
     });
   }
 
@@ -55,9 +55,7 @@ export class ProductsService {
       },
       // order: {
       //   options: {
-      //     option_items: {
-      //       createdAt: "DESC",
-      //     },
+      //     option_items: "DESC",
       //   },
       // },
       relations: ["options", "options.option_items", "reviews"],

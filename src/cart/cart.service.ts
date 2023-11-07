@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import {
   CreateCartDto,
-  Cart_OptionDto,
-  Cart_Option_ValsDto,
+  Cart_ItemDto,
+  Cart_OptDto,
 } from "./dto/create-cart.dto";
 import { UpdateCartDto } from "./dto/update-cart.dto";
 import { Cart } from "./entities/cart.entity";
@@ -10,6 +10,7 @@ import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Cart_Item_Option } from "./entities/cart_item_option.entity";
 import { Cart_Item } from "./entities/cart_item.entity";
+import { Prod_Option_Val } from "src/products/entities/option_item_val.entity";
 
 @Injectable()
 export class CartService {
@@ -22,46 +23,75 @@ export class CartService {
 
     @InjectRepository(Cart_Item_Option)
     private cartItemOptionRepository: Repository<Cart_Item_Option>,
+
+    @InjectRepository(Prod_Option_Val)
+    private prodOptValRepository: Repository<Prod_Option_Val>,
   ) {}
 
   async create(CreateCartDto: CreateCartDto) {
-    const cartEntity = this.cartRepository.create(CreateCartDto);
-    const cartItemEntity = await Promise.all(
-      CreateCartDto.options.map(async (cart_option: Cart_OptionDto) => {
-        const cartItemOptionEntity =
-          this.cartItemRepository.create(cart_option);
-        const cartItemOptionValsEntity = await Promise.all(
-          cart_option.option_items.map(
-            async (option_item: Cart_Option_ValsDto) => {
-              return await this.cartItemOptionRepository.save(
-                this.cartItemOptionRepository.create(option_item),
-              );
-            },
-          ),
+    const cart = await this.cartRepository.findOne({
+      where: {
+        user: { uuid: CreateCartDto.user },
+      },
+    });
+    const cartItems = await Promise.all(
+      CreateCartDto.items.map(async (cart_items: Cart_ItemDto) => {
+        const cartItemEntity = this.cartItemRepository.create(cart_items);
+        const cartItemOptionEntity = await Promise.all(
+          cart_items.options.map(async (option_item: Cart_OptDto) => {
+            const cart_item_opts =
+              this.cartItemOptionRepository.create(option_item);
+            cart_item_opts.prod_opt_val = option_item.uuid;
+            return await this.cartItemOptionRepository.save(cart_item_opts);
+          }),
         );
-        cartItemOptionEntity.cart_item_options = cartItemOptionValsEntity;
-        return await this.cartItemRepository.save(cartItemOptionEntity);
+
+        cartItemEntity.cart_item_opts = cartItemOptionEntity;
+        cartItemEntity.product = CreateCartDto.product;
+        cartItemEntity.total_price = await Promise.all(
+          cartItemEntity.cart_item_opts.map((opts: Cart_Item_Option) => {
+            const prod_opt_valEntity = this.prodOptValRepository.findOne({
+              where: {
+                uuid: opts.prod_opt_val,
+              },
+              select: { opt_price: true },
+            });
+            return opts.quantity * prod_opt_valEntity;
+          }),
+        );
+        return await this.cartItemRepository.save(cartItemEntity);
       }),
     );
-    cartEntity.cart_items = cartItemEntity;
-    cartEntity.user = CreateCartDto.user;
-    return await this.cartRepository.save(cartEntity);
+    cart.cart_items = cartItems;
+    // cartEntity.cart_items = cartItemEntity;
+    // cartEntity.user = CreateCartDto.user;
+    return await this.cartRepository.save(cart);
     // return cartEntity;
   }
 
   async findAll() {
     return await this.cartRepository.find({
-      relations: ["user_uuid", "cart_items", "cart_items.cart_item_options"],
+      relations: [
+        "user_uuid",
+        "cart_items",
+        "cart_items.cart_item_opts",
+        "cart_items.product",
+        "cart_items.cart_item_opts.prod_opt_val",
+      ],
     });
   }
 
   async findUserId(uuid: string) {
-    console.log("uuid = " + uuid);
-    return await this.cartRepository.find({
-      // where: {
-      //   user_uuid: uuid,
-      // },
-      relations: ["user_uuid", "cart_items", "cart_items.cart_item_options"],
+    return await this.cartRepository.findOne({
+      where: {
+        user: { uuid: uuid },
+      },
+      relations: [
+        "cart_items",
+        "cart_items.cart_item_opts",
+        "cart_items.product",
+        "cart_items.cart_item_opts.prod_opt_val",
+      ],
     });
   }
 

@@ -4,27 +4,24 @@ import { Option } from "./option.entity";
 import { CommonColumns } from "types/common_type";
 import { Order_Item_Opt } from "src/orders/entities/order_item_opt.entity";
 
-@Entity({ name: "prod_option_vals" })
+@Entity({ name: "prod_opt_vals" })
 export class Prod_Option_Val extends CommonColumns {
   @Column()
   opt_value: string;
 
-  // @Column()
-  // option_id: string;
-
   @Column()
-  price: number;
+  opt_price: number;
 
   @Column({ default: false })
   unavailable: boolean;
 
   @JoinColumn()
   @ManyToOne(() => Option, (option) => option.option_items)
-  option_uuid: string;
+  option: string;
 
   @OneToMany(
     () => Cart_Item_Option,
-    (cart_option) => cart_option.prod_opt_val_uuid,
+    (cart_option) => cart_option.prod_opt_val,
     {
       cascade: true,
     },

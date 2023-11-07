@@ -1,34 +1,28 @@
 import { IsArray, IsInt, IsString } from "class-validator";
 
-export class Cart_Option_ValsDto {
+export class Cart_OptDto {
   @IsString()
   readonly uuid: string;
-
-  @IsString()
-  readonly opt_value: string;
-
-  @IsInt()
-  readonly price: number;
 
   @IsInt()
   readonly quantity: number;
 }
 
-export class Cart_OptionDto {
+export class Cart_ItemDto {
   @IsString()
   readonly uuid: string;
 
-  @IsString()
-  readonly opt_name: string;
-
   @IsArray()
-  readonly option_items: Cart_Option_ValsDto[];
+  readonly options: Cart_OptDto[];
 }
 
 export class CreateCartDto {
   @IsString()
   readonly user: string;
 
+  @IsString()
+  readonly product: string;
+
   @IsArray()
-  readonly options: Cart_OptionDto[];
+  readonly items: Cart_ItemDto[];
 }

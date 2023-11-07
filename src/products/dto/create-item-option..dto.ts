@@ -5,5 +5,5 @@ export class createItemOptionDto {
   opt_value: string;
 
   @IsInt()
-  price: number;
+  opt_price: number;
 }
