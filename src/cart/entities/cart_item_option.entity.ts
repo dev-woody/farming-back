@@ -17,5 +17,5 @@ export class Cart_Item_Option extends CommonColumns {
     () => Prod_Option_Val,
     (prod_opt_val) => prod_opt_val.cart_item_options,
   )
-  prod_opt_val: string;
+  prod_opt_val: Prod_Option_Val;
 }

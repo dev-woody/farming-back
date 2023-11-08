@@ -12,7 +12,7 @@ export class Cart_Item extends CommonColumns {
   cart_item_opts: Cart_Item_Option[];
 
   @Column()
-  total_price: number;
+  total_amount: number;
 
   @JoinColumn()
   @ManyToOne(() => Cart, (cart) => cart.cart_items)
@@ -20,5 +20,5 @@ export class Cart_Item extends CommonColumns {
 
   @JoinColumn()
   @ManyToOne(() => Product, (product) => product.cart_items)
-  product: string;
+  product: Product;
 }

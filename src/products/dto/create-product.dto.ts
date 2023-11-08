@@ -26,6 +26,12 @@ export class CreateProductDto {
   @IsNumber()
   given_point_rate: number;
 
+  @IsNumber()
+  shipping_fee: number;
+
+  @IsNumber()
+  free_shipping_amount: number;
+
   @IsArray()
   readonly options: Option[];
 }

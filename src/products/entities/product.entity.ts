@@ -28,6 +28,12 @@ export class Product extends CommonColumns {
   @Column()
   given_point_rate: number;
 
+  @Column()
+  shipping_fee: number;
+
+  @Column()
+  free_shipping_amount: number;
+
   @OneToMany(() => Option, (option) => option.product, {
     cascade: true,
   })
