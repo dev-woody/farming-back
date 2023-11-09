@@ -12,7 +12,7 @@ import {
 import { CartService } from "./cart.service";
 import { CreateCartDto } from "./dto/create-cart.dto";
 import { UpdateCartDto } from "./dto/update-cart.dto";
-import { AuthGuard } from "src/auth/guard/auth.guard";
+import { JwtAccesshGuard } from "src/auth/guard/auth.guard";
 import { UsersService } from "src/users/users.service";
 import { ProductsService } from "src/products/products.service";
 
@@ -39,7 +39,7 @@ export class CartController {
     return this.cartService.create(createCartDto);
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtAccesshGuard)
   @Get("/")
   async findByUserId(@Req() req: any) {
     const user = req.user;

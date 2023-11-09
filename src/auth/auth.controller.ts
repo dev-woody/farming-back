@@ -1,19 +1,31 @@
-import { Controller, Post, Body, UnauthorizedException } from "@nestjs/common";
+import {
+  Controller,
+  Post,
+  Body,
+  UnauthorizedException,
+  Req,
+  UseGuards,
+  Get,
+  HttpCode,
+  Res,
+} from "@nestjs/common";
 import { UsersService } from "src/users/users.service";
 import { AuthDTO } from "./dto/auth.dto";
 
-import { JwtService } from "@nestjs/jwt/dist";
 import * as bcrypt from "bcrypt";
+import { Request } from "express";
+import { AuthService } from "./auth.service";
+import { JwtAccesshGuard, JwtRefreshGuard } from "./guard/auth.guard";
 
 @Controller()
 export class AuthController {
   constructor(
     private readonly usersService: UsersService,
-    private readonly jwtService: JwtService,
+    private readonly authService: AuthService,
   ) {}
 
   @Post("signIn")
-  async signIn(@Body() authDTO: AuthDTO.SignIn) {
+  async signIn(@Body() authDTO: AuthDTO.SignIn, @Req() request: Request) {
     const { user_id, password } = authDTO;
 
     const user = await this.usersService.findByUserId(user_id);
@@ -26,15 +38,40 @@ export class AuthController {
       throw new UnauthorizedException("비밀번호를 확인해 주세요.");
     }
 
-    const payload = {
-      user_id: user.user_id,
-    };
+    const accessToken = this.authService.getJwtAccessToken(user.user_id);
+    const { cookie: refreshTokenCookie, refreshToken: refreshToken } =
+      await this.authService.getJwtRefreshToken(user.user_id);
 
-    const accessToken = this.jwtService.sign(payload);
+    await this.usersService.setCurrentRefreshToken(refreshToken, user.uuid);
+    request.res.setHeader("Set-Cookie", [...accessToken, refreshTokenCookie]);
+
     delete user.password;
     return {
       ...user,
-      accessToken: accessToken,
     };
+  }
+
+  @UseGuards(JwtAccesshGuard)
+  @Post("logout")
+  @HttpCode(200)
+  async logout(@Req() req: Request, @Res() res): Promise<any> {
+    await this.usersService.removeRefreshToken(res.user.uuid);
+    res.setHeader("Set-Cookie", this.authService.getCookiesForLogOut());
+  }
+
+  @UseGuards(JwtAccesshGuard)
+  @Get()
+  authenticate(@Req() req: Request) {
+    const user = req.user;
+    return user;
+  }
+
+  // Refresh Guard를 적용한다.
+  @UseGuards(JwtRefreshGuard)
+  @Get("/refresh")
+  refresh(@Req() req: any) {
+    const accessTokenCookie = this.authService.getJwtAccessToken(req.user.uuid);
+    req.res.setHeader("Set-Cookie", accessTokenCookie);
+    return req.user;
   }
 }

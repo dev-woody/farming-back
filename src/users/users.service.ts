@@ -1,9 +1,15 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "./entities/user.entity";
 import { Repository } from "typeorm";
 import { AuthDTO } from "src/auth/dto/auth.dto";
 import { Cart } from "src/cart/entities/cart.entity";
+import { compareSync, hash } from "bcrypt";
 
 @Injectable()
 export class UsersService {
@@ -16,6 +22,7 @@ export class UsersService {
   ) {}
 
   async create(authDTO: AuthDTO.SignUp) {
+    authDTO.password = await hash(authDTO.password, 10);
     const userEntity = this.userRepository.create(authDTO);
     const cartEntity = this.cartRepository.create(userEntity);
     userEntity.carts = cartEntity;
@@ -42,6 +49,33 @@ export class UsersService {
     return user;
   }
 
+  async setCurrentRefreshToken(refreshToken: string, uuid: string) {
+    const currentHashedRefreshToken = await hash(refreshToken, 10);
+    await this.userRepository.update(uuid, {
+      refreshToken: currentHashedRefreshToken,
+    });
+  }
+
+  async getUserIfRefreshTokenMatches(refreshToken: string, uuid: string) {
+    const user = await this.findByUseruuId(uuid);
+
+    const isRefreshTokenMatching = compareSync(refreshToken, user.refreshToken);
+    if (!isRefreshTokenMatching) {
+      throw new UnauthorizedException("토큰인증에 실패하였습니다.");
+    }
+
+    if (isRefreshTokenMatching) {
+      return user;
+    }
+    return;
+  }
+
+  async removeRefreshToken(uuid: string) {
+    return this.userRepository.update(uuid, {
+      refreshToken: null,
+    });
+  }
+
   async findCart(uuid: string) {
     const user = await this.userRepository.findOne({
       where: {
@@ -66,6 +100,29 @@ export class UsersService {
     return await this.userRepository.findOne({
       where: {
         user_id,
+      },
+      select: [
+        "uuid",
+        "name",
+        "profile_img",
+        "user_id",
+        "password",
+        "phone",
+        "email",
+        "zip_code",
+        "address",
+        "address_detail",
+        "createdAt",
+        "updatedAt",
+        "deletedAt",
+      ],
+    });
+  }
+
+  async findByUseruuId(uuid: string) {
+    return await this.userRepository.findOne({
+      where: {
+        uuid,
       },
       select: [
         "uuid",

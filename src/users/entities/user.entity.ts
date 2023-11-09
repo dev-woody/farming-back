@@ -1,6 +1,4 @@
-import { BeforeInsert, Column, Entity, OneToMany, OneToOne } from "typeorm";
-
-import * as bcrypt from "bcrypt";
+import { Column, Entity, OneToMany, OneToOne } from "typeorm";
 import { Review } from "src/reviews/entities/review.entity";
 import { Cart } from "src/cart/entities/cart.entity";
 import { Order } from "src/orders/entities/order.entity";
@@ -17,7 +15,7 @@ export class User extends CommonColumns {
   @Column()
   user_id: string;
 
-  @Column({ select: false })
+  @Column()
   password: string;
 
   @Column()
@@ -35,6 +33,9 @@ export class User extends CommonColumns {
   @Column()
   phone: string;
 
+  @Column({ nullable: true })
+  refreshToken: string;
+
   @OneToMany(() => Review, (review) => review.user, {
     cascade: true,
   })
@@ -49,9 +50,4 @@ export class User extends CommonColumns {
     cascade: true,
   })
   orders: Order[];
-
-  @BeforeInsert()
-  private beforeInsert() {
-    this.password = bcrypt.hashSync(this.password, 10);
-  }
 }

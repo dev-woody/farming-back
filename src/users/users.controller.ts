@@ -9,7 +9,7 @@ import {
 } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { AuthDTO } from "src/auth/dto/auth.dto";
-import { AuthGuard } from "src/auth/guard/auth.guard";
+import { JwtAccesshGuard } from "src/auth/guard/auth.guard";
 
 @Controller("users")
 export class UsersController {
@@ -28,21 +28,21 @@ export class UsersController {
     return userEntity;
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtAccesshGuard)
   @Get("/test")
   async findById(@Req() req: any) {
     const user = req.user;
     return await this.usersService.findById(user.uuid);
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtAccesshGuard)
   @Get("/cart")
   async findCart(@Req() req: any) {
     const user = req.user;
     return await this.usersService.findCart(user.uuid);
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtAccesshGuard)
   @Get()
   async getProfile(@Req() req: any) {
     const user = req.user;
