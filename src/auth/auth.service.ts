@@ -11,10 +11,11 @@ export class AuthService {
       secret: process.env.JWT_ACCESS_SECRET,
       expiresIn: process.env.JWT_ACCESS_EXPIRATION_TIME + "s",
     });
-    return [
-      `ACCESS_TOKEN=${accessToken}; HttpOnly; Path=/; Max-Age=${process.env.JWT_ACCESS_EXPIRATION_TIME}`,
-      `Authorization=${accessToken}; HttpOnly; Path=/; Max-Age=${process.env.JWT_ACCESS_EXPIRATION_TIME}`,
-    ];
+    return `ACCESS_TOKEN=${accessToken}; HttpOnly; Path=/; Max-Age=${process.env.JWT_ACCESS_EXPIRATION_TIME}`;
+    // return [
+    //   `ACCESS_TOKEN=${accessToken}; HttpOnly; Path=/; Max-Age=${process.env.JWT_ACCESS_EXPIRATION_TIME}`,
+    //   `Authorization=${accessToken}; HttpOnly; Path=/; Max-Age=${process.env.JWT_ACCESS_EXPIRATION_TIME}`,
+    // ];
   }
 
   async getJwtRefreshToken(user_id: string) {

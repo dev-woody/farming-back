@@ -13,6 +13,8 @@ import { ServeStaticModule } from "@nestjs/serve-static";
 import { join } from "path";
 import { ReviewsModule } from "./reviews/reviews.module";
 import { PaymentsModule } from "./payments/payments.module";
+import { JwtStrategy } from "./auth/security/jwt-access.strategy";
+import { JwtRefreshStrategy } from "./auth/security/jwt-refresh.strategy";
 
 @Module({
   imports: [
@@ -44,6 +46,6 @@ import { PaymentsModule } from "./payments/payments.module";
     PaymentsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, JwtStrategy, JwtRefreshStrategy],
 })
 export class AppModule {}

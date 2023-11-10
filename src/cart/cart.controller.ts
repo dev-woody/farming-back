@@ -12,7 +12,7 @@ import {
 import { CartService } from "./cart.service";
 import { CreateCartDto } from "./dto/create-cart.dto";
 import { UpdateCartDto } from "./dto/update-cart.dto";
-import { JwtAccesshGuard } from "src/auth/guard/auth.guard";
+import { JwtAccesshGuard } from "src/auth/guard/jwt-auth-access.guard";
 import { UsersService } from "src/users/users.service";
 import { ProductsService } from "src/products/products.service";
 

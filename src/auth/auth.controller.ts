@@ -15,7 +15,8 @@ import { AuthDTO } from "./dto/auth.dto";
 import * as bcrypt from "bcrypt";
 import { Request } from "express";
 import { AuthService } from "./auth.service";
-import { JwtAccesshGuard, JwtRefreshGuard } from "./guard/auth.guard";
+import { JwtAccesshGuard } from "./guard/jwt-auth-access.guard";
+import { JwtRefreshGuard } from "./guard/jwt-auth-refresh.guard";
 
 @Controller()
 export class AuthController {
@@ -43,7 +44,7 @@ export class AuthController {
       await this.authService.getJwtRefreshToken(user.user_id);
 
     await this.usersService.setCurrentRefreshToken(refreshToken, user.uuid);
-    request.res.setHeader("Set-Cookie", [...accessToken, refreshTokenCookie]);
+    request.res.setHeader("Set-Cookie", [accessToken, refreshTokenCookie]);
 
     delete user.password;
     return {

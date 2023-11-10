@@ -15,7 +15,7 @@ export class User extends CommonColumns {
   @Column()
   user_id: string;
 
-  @Column()
+  @Column({ select: false })
   password: string;
 
   @Column()
@@ -33,7 +33,7 @@ export class User extends CommonColumns {
   @Column()
   phone: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, select: false })
   refreshToken: string;
 
   @OneToMany(() => Review, (review) => review.user, {
