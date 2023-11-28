@@ -56,15 +56,16 @@ export class UsersService {
     });
   }
 
-  async getUserIfRefreshTokenMatches(refreshToken: string, uuid: string) {
-    const user = await this.findByUseruuId(uuid);
-
+  async getUserIfRefreshTokenMatches(refreshToken: string, user_id: string) {
+    const user = await this.findByUserId(user_id);
     const isRefreshTokenMatching = compareSync(refreshToken, user.refreshToken);
     if (!isRefreshTokenMatching) {
       throw new UnauthorizedException("토큰인증에 실패하였습니다.");
     }
 
     if (isRefreshTokenMatching) {
+      delete user.password;
+      delete user.refreshToken;
       return user;
     }
     return;
@@ -107,6 +108,7 @@ export class UsersService {
         "profile_img",
         "user_id",
         "password",
+        "refreshToken",
         "phone",
         "email",
         "zip_code",
